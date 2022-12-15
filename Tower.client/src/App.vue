@@ -1,12 +1,26 @@
 <template>
   <header>
-    <Navbar />
   </header>
-  <main>
-    <router-view />
+  <main class="container-fluid m-0">
+    <section class="row">
+      <div class="col-12 col-md-11">
+        <section class="row">
+          <router-link class="d-flex" :to="{ name: 'Home' }">
+            <div class="d-flex flex-column align-items-center">
+              <img alt="logo" src="src/assets/img/Logo.png" height="45" />
+            </div>
+          </router-link>
+        </section>
+        <section class="row p-5">
+          <router-view />
+        </section>
+      </div>
+      <div class="col-12 col-md-1 bg-gradient">
+        <Navbar />
+      </div>
+    </section>
   </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
+  <footer>
   </footer>
 </template>
 
@@ -27,14 +41,11 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
-:root{
+:root {
   --main-height: calc(100vh - 32px - 64px);
 }
 
-
-footer {
-  display: grid;
-  place-content: center;
-  height: 32px;
+main {
+  background-color: #2A2D3A;
 }
 </style>

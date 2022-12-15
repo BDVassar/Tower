@@ -12,7 +12,7 @@ class EventsService {
   }
   async createEvent(body) {
     const event = await dbContext.Events.create(body)
-    event.populate('creator')
+    await event.populate('creator')
     return event
   }
   async editEvent(body, eventId, userId) {

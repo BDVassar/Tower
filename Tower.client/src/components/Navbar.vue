@@ -1,42 +1,62 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-    <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-      <div class="d-flex flex-column align-items-center">
-        <img alt="logo" src="../assets/img/cw-logo.png" height="45" />
+  <nav class=" row gap-2 justify-content-center align-items-start navbar navbar-expand-lg navbar-dark">
+    <div v-if="!user.isAuthenticated">
+      <div class="col-12 mb-2">
+        <button class="btn loginBtn btn-light w-75" @click="login">
+          Login
+        </button>
       </div>
-    </router-link>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarText"
-      aria-controls="navbarText"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
-          </router-link>
-        </li>
-      </ul>
-      <!-- LOGIN COMPONENT HERE -->
-      <Login />
+      <div class="col-12">
+        <router-link :to="{ name: 'Home' }">
+          <button class="btn btn-outline-light w-75">
+            Home
+          </button>
+        </router-link>
+      </div>
+    </div>
+    <div v-else>
+      <div v-if="account.picture || user.picture" type="button" class=" border-0 selectable no-select col-12">
+        <img :src="account.picture || user.picture" alt="account photo" height="40" class="rounded" />
+      </div>
+      <div class="col-12">
+        <router-link :to="{ name: 'Home' }">
+          <button class="btn btn-outline-light">
+            Home
+          </button>
+        </router-link>
+      </div>
+      <div class="list-group">
+        <router-link :to="{ name: 'Account' }">
+          <div class="selectable">
+            Manage Account
+          </div>
+        </router-link>
+        <div class="text-danger selectable" @click="logout">
+          <i class="mdi mdi-logout"></i>
+          logout
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
-import Login from './Login.vue'
+import { computed } from 'vue'
+import { AppState } from '../AppState'
+import { AuthService } from '../services/AuthService'
 export default {
   setup() {
-    return {}
-  },
-  components: { Login }
+    return {
+      user: computed(() => AppState.user),
+      account: computed(() => AppState.account),
+      async login() {
+        AuthService.loginWithPopup()
+      },
+      async logout() {
+        AuthService.logout({ returnTo: window.location.origin })
+      }
+    }
+  }
 }
 </script>
 
@@ -45,20 +65,13 @@ a:hover {
   text-decoration: none;
 }
 
-.nav-link {
-  text-transform: uppercase;
-}
-
-.navbar-nav .router-link-exact-active {
-  border-bottom: 2px solid var(--bs-success);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+.loginBtn {
+  background-color: #79E7AB;
 }
 
 @media screen and (min-width: 768px) {
   nav {
-    height: 64px;
+    height: 100%;
   }
 }
-
 </style>
