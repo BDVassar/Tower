@@ -28,7 +28,7 @@
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
-        <form @submit="createEvent()" class="d-flex flex-column">
+        <form @submit.prevent="createEvent()" class="d-flex flex-column">
           <div class="form-floating mb-3">
             <input v-model="newEvent.name" type="text" class="form-control bg-btnnav" id="name" placeholder="Name">
             <label for="name">Event Name</label>
@@ -82,20 +82,21 @@ import { eventsService } from "./services/EventsService.js"
 import { logger } from "./utils/Logger.js"
 import Pop from "./utils/Pop.js"
 import { Offcanvas } from "bootstrap"
-import { router } from "./router.js"
+import { useRouter } from "vue-router"
 
 export default {
   setup() {
     const newEvent = ref({})
+    const router = useRouter()
     return {
       newEvent,
 
       async createEvent() {
         try {
           const event = await eventsService.createEvent(newEvent.value)
-          newEvent.value = {}
-          // Offcanvas.getOrCreateInstance('offcanvasDark').hide()
           router.push({ name: 'EventDetails', params: { eventId: event.id } })
+          newEvent.value = {}
+          Offcanvas.getOrCreateInstance('#offcanvasDark').hide()
         } catch (error) {
           Pop.error(error)
           logger.error(error)

@@ -40,8 +40,9 @@
             <p>{{ currentEvent.capacity }} spots left</p>
           </div>
           <div class="col-2">
-            <button :class="`btn btn-${currentEvent.isCanceled || currentEvent.capacity == 0 ? 'danger' : 'warning'}`"
-              :disabled="currentEvent.isCanceled || currentEvent.capacity == 0">Attend <span
+            <button @click="createTicket()"
+              :class="`btn btn-${currentEvent.isCanceled || currentEvent.capacity == 0 ? 'danger' : 'warning'}`"
+              :disabled="currentEvent.isCanceled || currentEvent.capacity == 0 || isAttending">Attend <span
                 class="mdi mdi-human"></span></button>
           </div>
         </section>
@@ -101,6 +102,7 @@ import Pop from "../utils/Pop.js";
 import { logger } from "../utils/Logger.js";
 import { eventsService } from "../services/EventsService.js";
 import { commentsService } from "../services/CommentsService.js";
+import { ticketsService } from "../services/TicketsService.js"
 
 export default {
   setup() {
@@ -145,6 +147,7 @@ export default {
       currentAudience: computed(() => AppState.activeProfiles),
       currentComments: computed(() => AppState.activeComments),
       account: computed(() => AppState.account),
+      isAttending: computed(() => AppState.activeProfiles.find(p => p.accountId == AppState.account.id)),
 
       async createComment() {
         try {
@@ -160,6 +163,15 @@ export default {
       async removeEvent() {
         try {
           await eventsService.removeEvent(route.params.eventId)
+        } catch (error) {
+          Pop.error(error)
+          logger.error(error)
+        }
+      },
+
+      async createTicket() {
+        try {
+          await ticketsService.createTicket({ eventId: route.params.eventId })
         } catch (error) {
           Pop.error(error)
           logger.error(error)

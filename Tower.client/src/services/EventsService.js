@@ -30,6 +30,8 @@ class EventsService {
   async createEvent(eventData) {
     const res = await api.post('api/events', eventData)
     logger.log(res.data)
+    return res.data
+    // AppState.activeEvent = res.data
   }
 
   async removeEvent(eventId) {
@@ -37,7 +39,7 @@ class EventsService {
     logger.log('[Deleted]', res.data)
     let index = AppState.events.findIndex(e => e.id == eventId)
     if (index >= 0) {
-      AppState.splice(index, 1)
+      AppState.events.splice(index, 1)
       AppState.activeEvent = res.data
     }
   }
