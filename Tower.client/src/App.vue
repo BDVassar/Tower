@@ -81,6 +81,8 @@ import Navbar from './components/Navbar.vue'
 import { eventsService } from "./services/EventsService.js"
 import { logger } from "./utils/Logger.js"
 import Pop from "./utils/Pop.js"
+import { Offcanvas } from "bootstrap"
+import { router } from "./router.js"
 
 export default {
   setup() {
@@ -90,7 +92,10 @@ export default {
 
       async createEvent() {
         try {
-          await eventsService.createEvent(newEvent.value)
+          const event = await eventsService.createEvent(newEvent.value)
+          newEvent.value = {}
+          // Offcanvas.getOrCreateInstance('offcanvasDark').hide()
+          router.push({ name: 'EventDetails', params: { eventId: event.id } })
         } catch (error) {
           Pop.error(error)
           logger.error(error)

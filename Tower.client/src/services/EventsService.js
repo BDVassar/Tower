@@ -15,6 +15,17 @@ class EventsService {
     logger.log(res.data)
     AppState.activeEvent = res.data
   }
+  async getTicketsByEventId(eventId) {
+    const res = await api.get('api/events/' + eventId + '/tickets')
+    logger.log(res.data)
+    AppState.activeProfiles = res.data
+  }
+
+  async getCommentsByEventId(eventId) {
+    const res = await api.get('api/events/' + eventId + '/comments')
+    logger.log('[Comments]', res.data)
+    AppState.activeComments = res.data
+  }
 
   async createEvent(eventData) {
     const res = await api.post('api/events', eventData)
