@@ -32,5 +32,14 @@ class EventsService {
     logger.log(res.data)
   }
 
+  async removeEvent(eventId) {
+    const res = await api.delete('api/events/' + eventId)
+    logger.log('[Deleted]', res.data)
+    let index = AppState.events.findIndex(e => e.id == eventId)
+    if (index >= 0) {
+      AppState.splice(index, 1)
+      AppState.activeEvent = res.data
+    }
+  }
 }
 export const eventsService = new EventsService()

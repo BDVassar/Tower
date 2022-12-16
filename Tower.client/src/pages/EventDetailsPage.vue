@@ -12,8 +12,15 @@
         <img class="img-fluid eventImg rounded" :src="currentEvent.coverImg" alt="">
       </div>
       <div class="col-7 text-light">
-        <section class="row justify-content-end">
-          <div class="col-1 mdi mdi-dots-horizontal fs-5 selectable"></div>
+        <section v-if="account" class="row justify-content-end">
+          <div v-if="currentEvent.creatorId == account.id" class="btn-group col-2">
+            <div class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><span
+                class=" mdi mdi-dots-horizontal fs-5 selectable"></span></div>
+            <ul class="dropdown-menu">
+              <li @click="removeEvent()" class="text-danger selectable"><span class="mdi mdi-delete"></span> Cancel
+                Event</li>
+            </ul>
+          </div>
         </section>
         <section class="row justify-content-between">
           <div class="col-5">
@@ -144,6 +151,15 @@ export default {
           newComment.value.eventId = route.params.eventId
           await commentsService.createComment(newComment.value)
           newComment.value = {}
+        } catch (error) {
+          Pop.error(error)
+          logger.error(error)
+        }
+      },
+
+      async removeEvent() {
+        try {
+          await eventsService.removeEvent(route.params.eventId)
         } catch (error) {
           Pop.error(error)
           logger.error(error)
