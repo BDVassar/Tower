@@ -76,7 +76,7 @@ export class EventsController extends BaseController {
   async cancelEvent(req, res, next) {
     try {
       const event = await eventsService.cancelEvent(req.userInfo.id, req.params.id)
-      return res.send(event + 'was archived')
+      return res.send(event)
     } catch (error) {
       next(error)
     }

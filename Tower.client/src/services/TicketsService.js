@@ -7,7 +7,7 @@ class TicketsService {
 
   async createTicket(eventId) {
     const res = await api.post('api/tickets', eventId)
-    logger.log('[new ticket]', res.data)
+    // logger.log('[new ticket]', res.data)
     AppState.activeProfiles.push(res.data)
     AppState.myTickets.push(res.data)
     AppState.activeEvent.capacity--
@@ -15,13 +15,13 @@ class TicketsService {
 
   async getMyTickets() {
     const res = await api.get('account/tickets')
-    logger.log('[My Tickets]', res.data)
+    // logger.log('[My Tickets]', res.data)
     AppState.myTickets = res.data
   }
 
   async removeTicket(ticketId) {
     const res = await api.delete('api/tickets/' + ticketId)
-    logger.log('[Removed Ticket]', res.data)
+    // logger.log('[Removed Ticket]', res.data)
     const index = AppState.myTickets.findIndex(t => t.id == ticketId)
     AppState.myTickets.splice(index, 1)
   }

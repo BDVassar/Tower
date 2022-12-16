@@ -42,15 +42,15 @@
           <div class="col-2">
             <button @click="createTicket()"
               :class="`btn btn-${currentEvent.isCanceled || currentEvent.capacity == 0 ? 'danger' : 'warning'}`"
-              :disabled="currentEvent.isCanceled || currentEvent.capacity == 0 || isAttending">Attend <span
-                class="mdi mdi-human"></span></button>
+              :disabled="currentEvent.isCanceled || currentEvent.capacity == 0 || isAttending"
+              title="Attend Event">Attend <span class="mdi mdi-human"></span></button>
           </div>
         </section>
       </div>
     </section>
     <!-- SECTION event attendees -->
     <section class="row">
-      <div class="col-12 text-light">
+      <div v-if="currentAudience.length > 0" class="col-12 text-light">
         <p>See who is attending</p>
       </div>
       <div class="col-12">
@@ -78,7 +78,7 @@
               <label for="floatingTextarea2">Tell the People...</label>
             </div>
             <div class="text-end">
-              <button type="submit" class="btn btn-outline-info">Post Comment</button>
+              <button type="submit" class="btn btn-outline-info" title="Post Comment">Post Comment</button>
             </div>
           </form>
         </section>

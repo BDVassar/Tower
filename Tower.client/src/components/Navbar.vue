@@ -14,34 +14,34 @@
         </router-link>
       </div>
     </div>
-    <div v-else>
+    <div v-else class=" sticky-top">
       <div class="col-12 text-center mb-3">
-        <div v-if="account.picture || user.picture" type="button" class=" border-0 selectable no-select col-12">
+        <div v-if="account.picture || user.picture" class=" border-0 no-select col-12">
           <img :src="account.picture || user.picture" alt="account photo" height="80" class="rounded" />
         </div>
       </div>
       <div class="col-12 mb-3">
         <router-link :to="{ name: 'Home' }">
-          <button class="btn btn-outline-light w-100 mainBtncolor p-1">
+          <button class="btn btn-outline-light w-100 mainBtncolor p-1" title="Home">
             Home
           </button>
         </router-link>
       </div>
       <div class="col-12 mb-3">
         <router-link :to="{ name: 'Account' }">
-          <button class="btn btn-outline-light w-100 mainBtncolor p-1">
+          <button class="btn btn-outline-light w-100 mainBtncolor p-1" title="Account">
             Account
           </button>
         </router-link>
       </div>
       <div class="col-12 mb-3">
         <button class="btn btn-outline-light w-100 mainBtncolor p-1" type="button" data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasDark" aria-controls="Create Event">
+          data-bs-target="#EventForm" aria-controls="New Event" aria-label="New Event" title="New Event">
           New Event
         </button>
       </div>
       <div class="col-12">
-        <button class="btn btn-outline-danger w-100 p-1" @click="logout">
+        <button class="btn btn-outline-danger w-100 p-1" @click="logout" title="Logout">
           <i class="mdi mdi-logout"></i>
           logout
         </button>

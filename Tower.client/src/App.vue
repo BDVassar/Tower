@@ -21,10 +21,9 @@
     </section>
   </main>
   <footer>
-    <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDark"
-      aria-labelledby="offcanvasDarkLabel">
+    <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="EventForm" aria-labelledby="EventLabel">
       <div class="offcanvas-header">
-        <h5 class="offcanvas-title fw-bold" id="offcanvasDarkLabel">Create Your Event!</h5>
+        <h5 class="offcanvas-title fw-bold" id="EventLabel">Create Your Event!</h5>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
       </div>
       <div class="offcanvas-body">
@@ -96,7 +95,7 @@ export default {
           const event = await eventsService.createEvent(newEvent.value)
           router.push({ name: 'EventDetails', params: { eventId: event.id } })
           newEvent.value = {}
-          Offcanvas.getOrCreateInstance('#offcanvasDark').hide()
+          Offcanvas.getOrCreateInstance('#EventForm').hide()
         } catch (error) {
           Pop.error(error)
           logger.error(error)
