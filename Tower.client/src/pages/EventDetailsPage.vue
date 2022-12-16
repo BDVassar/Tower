@@ -74,7 +74,12 @@
             </div>
           </form>
         </section>
-        <section class="row"></section>
+        <!-- SECTION comments component -->
+        <section class="row">
+          <div v-for="c in currentComments" class="col-12">
+            <CommentCard :comment="c" />
+          </div>
+        </section>
       </div>
     </section>
   </div>
