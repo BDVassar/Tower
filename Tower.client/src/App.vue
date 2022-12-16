@@ -21,18 +21,82 @@
     </section>
   </main>
   <footer>
+    <div class="offcanvas offcanvas-start text-bg-dark" tabindex="-1" id="offcanvasDark"
+      aria-labelledby="offcanvasDarkLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold" id="offcanvasDarkLabel">Create Your Event!</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <form @submit="createEvent()" class="d-flex flex-column">
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.name" type="text" class="form-control bg-btnnav" id="name" placeholder="Name">
+            <label for="name">Event Name</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.description" type="text" class="form-control bg-btnnav" id="description"
+              placeholder="Description">
+            <label for="description">Description</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.coverImg" type="Url" class="form-control bg-btnnav" id="coverImg"
+              placeholder="Cover Image">
+            <label for="coverImg">Cover Image</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.location" type="text" class="form-control bg-btnnav" id="location"
+              placeholder="Location">
+            <label for="location">Location</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.capacity" type="number" class="form-control bg-btnnav" id="capacity"
+              placeholder="Capacity">
+            <label for="capacity">Capacity</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input v-model="newEvent.startDate" type="Date" class="form-control bg-btnnav text-light" id="startDate"
+              placeholder="Start Date">
+            <label for="startDate">Start Date</label>
+          </div>
+          <div class="form-floating mb-3">
+            <select v-model="newEvent.type" class="form-select bg-btnnav text-light" id="type">
+              <option value="concert">Concert</option>
+              <option value="convention">Convention</option>
+              <option value="sport">Sport</option>
+              <option value="digital">Digital</option>
+            </select>
+            <label for="type">Type</label>
+          </div>
+          <button type="submit" class="btn btn-outline-light ">Create</button>
+        </form>
+      </div>
+    </div>
   </footer>
 </template>
 
 <script>
-import { computed } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import { eventsService } from "./services/EventsService.js"
+import { logger } from "./utils/Logger.js"
+import Pop from "./utils/Pop.js"
 
 export default {
   setup() {
+    const newEvent = ref({})
     return {
-      appState: computed(() => AppState)
+      newEvent,
+
+      async createEvent() {
+        try {
+          await eventsService.createEvent(newEvent.value)
+        } catch (error) {
+          Pop.error(error)
+          logger.error(error)
+        }
+      }
+
     }
   },
   components: { Navbar }
@@ -47,5 +111,9 @@ export default {
 
 main {
   background-color: #2A2D3A;
+}
+
+.bg-btnnav {
+  background-color: #474C61;
 }
 </style>
