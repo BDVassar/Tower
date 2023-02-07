@@ -6,7 +6,7 @@
       <div class="col-12 col-md-11">
         <section class="row">
           <router-link class="d-flex" :to="{ name: 'Home' }">
-            <div class="d-flex flex-column align-items-center">
+            <div class="d-flex flex-column align-items-center pt-3">
               <img alt="logo" src="src/assets/img/Logo.png" height="45" />
             </div>
           </router-link>
